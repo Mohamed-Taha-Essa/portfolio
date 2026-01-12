@@ -1,9 +1,10 @@
 from django.contrib import admin
 from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyContactInfo
+from unfold.admin import ModelAdmin
 
 
 @admin.register(Home)
-class HomeAdmin(admin.ModelAdmin):
+class HomeAdmin(ModelAdmin):
     list_display = ('name', 'title', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at')
     search_fields = ('name', 'title', 'description')
@@ -12,7 +13,7 @@ class HomeAdmin(admin.ModelAdmin):
 
 
 @admin.register(About)
-class AboutAdmin(admin.ModelAdmin):
+class AboutAdmin(ModelAdmin):
     list_display = ('title', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at')
     search_fields = ('title', 'bio')
@@ -21,7 +22,7 @@ class AboutAdmin(admin.ModelAdmin):
 
 
 @admin.register(SkillSection)
-class SkillSectionAdmin(admin.ModelAdmin):
+class SkillSectionAdmin(ModelAdmin):
     list_display = ('title', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at')
     search_fields = ('title', 'bio')
@@ -30,7 +31,7 @@ class SkillSectionAdmin(admin.ModelAdmin):
 
 
 @admin.register(Skill)
-class SkillAdmin(admin.ModelAdmin):
+class SkillAdmin(ModelAdmin):
     list_display = ('name', 'skill_section', 'percentage', 'created_at', 'updated_at')
     list_filter = ('skill_section', 'percentage', 'created_at', 'updated_at')
     search_fields = ('name', 'skill_section__title')
@@ -40,7 +41,7 @@ class SkillAdmin(admin.ModelAdmin):
 
 
 @admin.register(WorkSection)
-class WorkSectionAdmin(admin.ModelAdmin):
+class WorkSectionAdmin(ModelAdmin):
     list_display = ('title', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at')
     search_fields = ('title', 'bio')
@@ -49,7 +50,7 @@ class WorkSectionAdmin(admin.ModelAdmin):
 
 
 @admin.register(Contact)
-class ContactAdmin(admin.ModelAdmin):
+class ContactAdmin(ModelAdmin):
     list_display = ('name', 'email', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at')
     search_fields = ('name', 'email', 'message')
@@ -59,7 +60,7 @@ class ContactAdmin(admin.ModelAdmin):
 
 
 @admin.register(MyContactInfo)
-class MyContactInfoAdmin(admin.ModelAdmin):
+class MyContactInfoAdmin(ModelAdmin):
     list_display = ('phone', 'email', 'address', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at')
     search_fields = ('phone', 'email', 'address')
