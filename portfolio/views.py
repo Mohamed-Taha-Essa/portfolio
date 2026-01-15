@@ -1,13 +1,57 @@
-from django.shortcuts import render
+import requests
+from django.conf import settings
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
 from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyContactInfo
-
+                        
 # Create your views here.
 def index(request):
     home = Home.objects.first()
     about = About.objects.first()
     skill_section = SkillSection.objects.first()
     skills = Skill.objects.all()
-    work_section = WorkSection.objects.first()
-    contact = Contact.objects.first()
+    works = WorkSection.objects.all()
     my_contact_info = MyContactInfo.objects.first()
-    return render(request, 'portfolio/index.html', {'home': home, 'about': about, 'skill_section': skill_section, 'skills': skills, 'work_section': work_section, 'contact': contact, 'my_contact_info': my_contact_info})
+    return render(request, 'portfolio/index.html', {
+        'home': home, 
+        'about': about, 
+        'skill_section': skill_section, 
+        'skills': skills, 
+        'works': works, 
+        'my_contact_info': my_contact_info
+    })
+
+def contact_ajax(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+        
+        if name and email and message:
+            try:
+                # Save to database
+                Contact.objects.create(
+                    name=name,
+                    email=email,
+                    message=message
+                )
+                
+                # Send Telegram Notification
+                bot_token = settings.TELEGRAM_BOT_TOKEN
+                chat_id = settings.TELEGRAM_CHAT_ID
+                telegram_message = f"New Contact Form Submission:\n\nName: {name}\nEmail: {email}\nMessage: {message}"
+                url = f"https://api.telegram.org/bot{bot_token}/sendMessage"
+                data = {"chat_id": chat_id, "text": telegram_message}
+                
+                try:
+                    requests.post(url, data=data)
+                except Exception as e:
+                    print(f"Telegram Error: {e}") # Log error but don't fail the request
+
+                return JsonResponse({'status': 'success', 'message': 'Thank you for your message! We will get back to you soon.'})
+            except Exception as e:
+                return JsonResponse({'status': 'error', 'message': 'Something went wrong. Please try again later.'}, status=500)
+        else:
+            return JsonResponse({'status': 'error', 'message': 'Please fill in all fields.'}, status=400)
+    
+    return JsonResponse({'status': 'error', 'message': 'Invalid request method.'}, status=405) 

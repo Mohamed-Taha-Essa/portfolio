@@ -7,6 +7,7 @@ class Home(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='portfolio/images/')
+    cv = models.FileField(upload_to='portfolio/cv/', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     
@@ -61,6 +62,7 @@ class WorkSection(models.Model):
     title = models.CharField(max_length=100)
     bio = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to='portfolio/images/')
+    url = models.URLField(max_length=200, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

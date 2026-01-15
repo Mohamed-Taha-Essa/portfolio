@@ -1,11 +1,11 @@
 from django.contrib import admin
 from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyContactInfo
-from unfold.admin import ModelAdmin
+from unfold.admin import ModelAdmin, TabularInline
 
 
 @admin.register(Home)
 class HomeAdmin(ModelAdmin):
-    list_display = ('name', 'title', 'created_at', 'updated_at')
+    list_display = ('name', 'title', 'cv', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at')
     search_fields = ('name', 'title', 'description')
     readonly_fields = ('created_at', 'updated_at')
@@ -21,6 +21,13 @@ class AboutAdmin(ModelAdmin):
     ordering = ('-created_at',)
 
 
+class SkillInline(TabularInline):
+    model = Skill
+    extra = 1
+    fields = ('name', 'icone', 'percentage')
+    readonly_fields = ()
+
+
 @admin.register(SkillSection)
 class SkillSectionAdmin(ModelAdmin):
     list_display = ('title', 'created_at', 'updated_at')
@@ -28,6 +35,7 @@ class SkillSectionAdmin(ModelAdmin):
     search_fields = ('title', 'bio')
     readonly_fields = ('created_at', 'updated_at')
     ordering = ('-created_at',)
+    inlines = [SkillInline]
 
 
 @admin.register(Skill)
@@ -42,9 +50,9 @@ class SkillAdmin(ModelAdmin):
 
 @admin.register(WorkSection)
 class WorkSectionAdmin(ModelAdmin):
-    list_display = ('title', 'created_at', 'updated_at')
+    list_display = ('title', 'url', 'created_at', 'updated_at')
     list_filter = ('created_at', 'updated_at')
-    search_fields = ('title', 'bio')
+    search_fields = ('title', 'bio', 'url')
     readonly_fields = ('created_at', 'updated_at')
     ordering = ('-created_at',)
 
