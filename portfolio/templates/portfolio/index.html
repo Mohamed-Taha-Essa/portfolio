@@ -28,6 +28,7 @@
                     <li class="nav__item"><a href="#about" class="nav__link">About</a></li>
                     <li class="nav__item"><a href="#skills" class="nav__link">Skills</a></li>
                     <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>
+                    <li class="nav__item"><a href="#certificates" class="nav__link">Certificates</a></li>
                     <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
                     {% if home.cv %}
                     <li class="nav__item">
@@ -42,7 +43,7 @@
                 <i class='bx bx-menu'></i>
             </div>
 
-            <div class="nav__item">
+            <div class="change-theme-container">
                 <i class='bx bx-moon change-theme' id="theme-button"
                     style="font-size: 1.5rem; color: var(--second-color); cursor: pointer; margin-left: 1rem;"></i>
             </div>
@@ -56,14 +57,20 @@
                 <h1 class="home__title">Hi,<br>I'am <span class="home__title-color">{{home.name}}</span><br>
                     {{home.title}}</h1>
 
-                <a href="#" class="button">Contact</a>
+                <!-- <a href="#" class="button">Contact</a> -->
             </div>
 
             <div class="home__social">
-                <a href="{{my_contact_info.linkedin_url}}" class="home__social-icon"><i class='bx bxl-linkedin'></i></a>
-                <a href="{{my_contact_info.instagram_url}}" class="home__social-icon"><i
+                <a href="{{my_contact_info.linkein_url}}" target="_blank" class="home__social-icon"><i
+                        class='bx bxl-linkedin'></i></a>
+                <a href="{{my_contact_info.instagram_url}}" target="_blank" class="home__social-icon"><i
                         class='bx bxl-instagram'></i></a>
-                <a href="{{my_contact_info.github_url}}" class="home__social-icon"><i class='bx bxl-github'></i></a>
+                <a href="{{my_contact_info.github_url}}" target="_blank" class="home__social-icon"><i
+                        class='bx bxl-github'></i></a>
+                <a href="{{my_contact_info.facebook_url}}" target="_blank" class="home__social-icon"><i
+                        class='bx bxl-facebook'></i></a>
+                <a href="mailto:{{my_contact_info.email}}" class="home__social-icon"><i class='bx bx-envelope'></i></a>
+                <a href="tel:{{my_contact_info.phone}}" class="home__social-icon"><i class='bx bx-phone'></i></a>
             </div>
 
             <div class="home__img">
@@ -81,6 +88,44 @@
                 </svg>
             </div>
         </section>
+        {% if certificates %}
+        <!--===== CERTIFICATES =====-->
+        <section class="certificates section" id="certificates" aria-label="My Certificates">
+            <h2 class="section-title">My Certificates</h2>
+
+            <div class="certificates__container bd-grid">
+                <div class="certificates__slider">
+                    <button class="certificates__nav certificates__nav--prev" type="button"
+                        aria-label="Previous certificates">
+                        <i class='bx bx-chevron-left'></i>
+                    </button>
+
+                    <div class="certificates__viewport">
+                        <ul class="certificates__track">
+                            {% for certificate in certificates %}
+                            <li class="certificate-card" role="group" aria-roledescription="slide"
+                                aria-label="{{ forloop.counter }} of {{ certificates|length }}">
+                                <figure class="certificate-card__figure">
+                                    <img src="{{certificate.image.url}}" alt="{{certificate.title}}" loading="lazy"
+                                        class="certificate-card__img">
+                                </figure>
+                                <h3 class="certificate-card__title">{{certificate.title}}</h3>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <button class="certificates__nav certificates__nav--next" type="button"
+                        aria-label="Next certificates">
+                        <i class='bx bx-chevron-right'></i>
+                    </button>
+                </div>
+
+                <div class="certificates__pagination" aria-hidden="true"></div>
+            </div>
+        </section>
+        {% endif %}
+
 
         <!--===== ABOUT =====-->
         <section class="about section " id="about">
@@ -147,6 +192,7 @@
         </section>
 
 
+
         <!--===== CONTACT =====-->
         <section class="contact section" id="contact">
             <h2 class="section-title">Contact</h2>
@@ -168,13 +214,20 @@
     <footer class="footer">
         <p class="footer__title">{{home.name}}</p>
         <div class="footer__social">
-            <a href="{{my_contact_info.facebook_url}}" class="footer__icon"><i class='bx bxl-facebook'></i></a>
-            <a href="{{my_contact_info.instagram_url}}" class="footer__icon"><i class='bx bxl-instagram'></i></a>
-            <a href="{{my_contact_info.twitter_url}}" class="footer__icon"><i class='bx bxl-twitter'></i></a>
+            <a href="{{my_contact_info.facebook_url}}" target="_blank" class="footer__icon"><i
+                    class='bx bxl-facebook'></i></a>
+            <a href="{{my_contact_info.instagram_url}}" target="_blank" class="footer__icon"><i
+                    class='bx bxl-instagram'></i></a>
+            <a href="{{my_contact_info.twitter_url}}" target="_blank" class="footer__icon"><i
+                    class='bx bxl-twitter'></i></a>
         </div>
-        
+
     </footer>
 
+
+    <div class="whatsapp-fab" id="whatsapp-fab">
+        <i class='bx bxl-whatsapp'></i>
+    </div>
 
     <!--===== SCROLL REVEAL =====-->
     <script src="https://unpkg.com/scrollreveal"></script>

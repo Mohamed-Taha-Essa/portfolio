@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyContactInfo
+from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyContactInfo, Certificate
 from unfold.admin import ModelAdmin, TabularInline
 
 
@@ -87,4 +87,10 @@ class MyContactInfoAdmin(ModelAdmin):
             'classes': ('collapse',)
         }),
     ) 
+
+
+@admin.register(Certificate)
+class CertificateAdmin(ModelAdmin):
+    list_display = ('title', 'created_at', 'updated_at')
+    search_fields = ('title',) 
 

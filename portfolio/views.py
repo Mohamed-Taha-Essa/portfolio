@@ -2,7 +2,7 @@ import requests
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
-from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyContactInfo
+from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyContactInfo, Certificate
                         
 # Create your views here.
 def index(request):
@@ -11,6 +11,7 @@ def index(request):
     skill_section = SkillSection.objects.first()
     skills = Skill.objects.all()
     works = WorkSection.objects.all()
+    certificates = Certificate.objects.all()
     my_contact_info = MyContactInfo.objects.first()
     return render(request, 'portfolio/index.html', {
         'home': home, 
@@ -18,6 +19,7 @@ def index(request):
         'skill_section': skill_section, 
         'skills': skills, 
         'works': works, 
+        'certificates': certificates,
         'my_contact_info': my_contact_info
     })
 

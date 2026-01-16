@@ -54,7 +54,7 @@ const sr = ScrollReveal({
 sr.reveal('.home__data, .about__img, .skills__subtitle, .skills__text', {});
 sr.reveal('.home__img, .about__subtitle, .about__text, .skills__img', { delay: 400 });
 sr.reveal('.home__social-icon', { interval: 200 });
-sr.reveal('.skills__data, .work__img, .contact__input', { interval: 200 });
+sr.reveal('.skills__data, .work__card, .certificate-card, .contact__input', { interval: 200 });
 
 /*==================== DARK LIGHT THEME ====================*/
 const themeButton = document.getElementById('theme-button')
@@ -85,3 +85,114 @@ themeButton.addEventListener('click', () => {
     localStorage.setItem('selected-theme', getCurrentTheme())
     localStorage.setItem('selected-icon', getCurrentIcon())
 })
+
+/*==================== WHATSAPP FAB ====================*/
+const whatsappFab = document.getElementById('whatsapp-fab');
+
+if (whatsappFab) {
+    whatsappFab.addEventListener('click', () => {
+        const phoneNumber = '+201092969975';
+        const message = 'Hello Taha, I want to contact you.';
+        const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+        window.open(url, '_blank');
+    });
+}
+
+/*==================== CERTIFICATES CONTINUOUS MARQUEE ====================*/
+(function initCertificatesMarquee() {
+    const slider = document.querySelector('.certificates__slider');
+    if (!slider) return;
+
+    const track = slider.querySelector('.certificates__track');
+    if (!track) return;
+
+    const originalSlides = Array.from(track.children);
+    if (originalSlides.length === 0) return;
+
+    const updateAnimation = () => {
+        // Clear existing clones to recalculate
+        const currentSlides = Array.from(track.children);
+        currentSlides.forEach(slide => {
+            if (slide.getAttribute('aria-hidden') === 'true') {
+                track.removeChild(slide);
+            }
+        });
+
+        // Calculate the width of the original set
+        // We use the offset of what would be the first clone
+        // To get this, we temporarily add one clone
+        const tempClone = originalSlides[0].cloneNode(true);
+        track.appendChild(tempClone);
+        const originalSetWidth = tempClone.offsetLeft - originalSlides[0].offsetLeft;
+        track.removeChild(tempClone);
+
+        const viewportWidth = slider.offsetWidth;
+
+        // Clone the slides enough times to fill the viewport plus one extra set
+        // This ensures that when we reset to 0, there's always content visible
+        const clonesNeeded = Math.ceil(viewportWidth / originalSetWidth) + 1;
+
+        for (let i = 0; i < clonesNeeded; i++) {
+            originalSlides.forEach(slide => {
+                const clone = slide.cloneNode(true);
+                clone.setAttribute('aria-hidden', 'true');
+                track.appendChild(clone);
+            });
+        }
+
+        // Set a consistent speed (e.g., 50 pixels per second)
+        const speed = 50;
+        const duration = originalSetWidth / speed;
+
+        track.style.animation = 'none';
+        track.offsetHeight; // Trigger reflow
+
+        track.style.setProperty('--marquee-distance', `-${originalSetWidth}px`);
+        track.style.animation = `marquee ${duration}s linear infinite`;
+    };
+
+    // Wait for images to load to get accurate widths
+    const images = track.querySelectorAll('img');
+    let loadedCount = 0;
+    const onImageLoad = () => {
+        loadedCount++;
+        if (loadedCount === images.length) {
+            updateAnimation();
+        }
+    };
+
+    if (images.length === 0) {
+        updateAnimation();
+    } else {
+        images.forEach(img => {
+            if (img.complete) {
+                onImageLoad();
+            } else {
+                img.addEventListener('load', onImageLoad);
+                img.addEventListener('error', onImageLoad); // Handle broken images too
+            }
+        });
+    }
+
+    // Update on resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(updateAnimation, 200);
+    });
+
+    // Pause on hover/focus
+    slider.addEventListener('mouseenter', () => {
+        track.style.animationPlayState = 'paused';
+    });
+    slider.addEventListener('mouseleave', () => {
+        track.style.animationPlayState = 'running';
+    });
+    slider.addEventListener('focusin', () => {
+        track.style.animationPlayState = 'paused';
+    });
+    slider.addEventListener('focusout', () => {
+        track.style.animationPlayState = 'running';
+    });
+})();
+
