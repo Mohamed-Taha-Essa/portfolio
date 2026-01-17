@@ -30,12 +30,7 @@
                     <li class="nav__item"><a href="#work" class="nav__link">Work</a></li>
                     <li class="nav__item"><a href="#certificates" class="nav__link">Certificates</a></li>
                     <li class="nav__item"><a href="#contact" class="nav__link">Contact</a></li>
-                    {% if home.cv %}
-                    <li class="nav__item">
-                        <a href="{{ home.cv.url }}" class="button" download
-                            style="padding: 0.5rem 1rem; margin-left: 1rem;">Download CV</a>
-                    </li>
-                    {% endif %}
+                   
                 </ul>
             </div>
 
@@ -58,19 +53,26 @@
                     {{home.title}}</h1>
 
                 <!-- <a href="#" class="button">Contact</a> -->
+             
+                  
+                        <a href="{{ home.cv.url }}" class="button" download
+                            style="padding: 0.5rem 1rem; margin-left: 1rem;">Download CV</a>
+                   
+                    
             </div>
 
             <div class="home__social">
                 <a href="{{my_contact_info.linkein_url}}" target="_blank" class="home__social-icon"><i
                         class='bx bxl-linkedin'></i></a>
                 <a href="{{my_contact_info.instagram_url}}" target="_blank" class="home__social-icon"><i
-                        class='bx bxl-instagram'></i></a>
+                        class='bx bxl-instagram-alt'></i></a>
                 <a href="{{my_contact_info.github_url}}" target="_blank" class="home__social-icon"><i
                         class='bx bxl-github'></i></a>
                 <a href="{{my_contact_info.facebook_url}}" target="_blank" class="home__social-icon"><i
                         class='bx bxl-facebook'></i></a>
-                <a href="mailto:{{my_contact_info.email}}" class="home__social-icon"><i class='bx bx-envelope'></i></a>
-                <a href="tel:{{my_contact_info.phone}}" class="home__social-icon"><i class='bx bx-phone'></i></a>
+                <a href="mailto:{{my_contact_info.email}}" class="home__social-icon"><i class='bx bxs-envelope'></i></a>
+
+                 
             </div>
 
             <div class="home__img">
@@ -204,7 +206,7 @@
                     <input type="email" name="email" placeholder="Email" class="contact__input" required>
                     <textarea name="message" cols="0" rows="10" placeholder="Your message..." class="contact__input"
                         required></textarea>
-                    <input type="submit" value="Send" class="contact__button button">
+                    <input type="submit" value="Send Message" class="contact__button button">
                 </form>
             </div>
         </section>

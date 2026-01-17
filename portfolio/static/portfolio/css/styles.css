@@ -260,12 +260,39 @@ img {
 }
 
 .home__social-icon {
-  width: max-content;
+  width:50px;
+  height:50px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border:.2rem solid var(--first-color);
+  border-radius: 50%;
+  
   margin-bottom: var(--mb-2);
-  font-size: 1.5rem;
-  color: var(--second-color);
+  color: var(--first-color);
+  box-shadow: 0 .2rem .5rem var(--shadow-color);
+  font-size: 2rem;
+  background: transparent;   /* مفيش خلفية */
 }
 
+.home__social-icon i {
+  color: var(--first-color);
+  transition: 0.3s;
+}
+
+.home__social-icon:hover,
+.home__social-icon:focus,
+.home__social-icon:active {
+  background-color: var(--first-color);
+}
+
+.home__social-icon:hover i,
+.home__social-icon:focus i,
+.home__social-icon:active i {
+  color: #fff;
+}
 
 /* ===== WhatsApp FAB ===== */
 .whatsapp-fab {
@@ -311,6 +338,7 @@ img {
 
 /*BUTTONS*/
 .button {
+  
   display: inline-block;
   background-color: var(--first-color);
   color: #fff;
@@ -318,10 +346,24 @@ img {
   font-weight: var(--font-semi);
   border-radius: 0.5rem;
   transition: 0.3s;
+  border: .2rem solid transparent
+}
+@media (max-width: 768px) {
+  .button {
+    display: flex;                /* تفعيل Flexbox */
+    justify-content: center;      /* توسيط أفقي */
+   
+  }
+  
 }
 
-.button:hover {
+.button:hover,
+.button:focus,
+.button:active {
   box-shadow: 0px 10px 36px rgba(0, 0, 0, 0.15);
+  background: transparent;
+  color: var(--first-color);
+  border-color: var(--first-color);
 }
 
 /* ===== ABOUT =====*/
@@ -521,6 +563,7 @@ img {
   margin-top: 0.5rem;
 
 }
+
 
 /* ===== CERTIFICATES (2026 Slider) =====*/
 .certificates__container {
@@ -775,13 +818,12 @@ body.dark-theme .certificates__bullet--active {
   font-weight: var(--font-semi);
   padding: 1rem;
   border-radius: 0.5rem;
-  border: 1.5px solid var(--second-color);
+  border: 2.5px solid var(--first-color);
   outline: none;
   margin-bottom: var(--mb-4);
 }
 
 .contact__button {
-  width: 100%;
   display: block;
   border: none;
   outline: none;
@@ -789,6 +831,7 @@ body.dark-theme .certificates__bullet--active {
   cursor: pointer;
   margin-left: auto;
   margin-right: auto;
+  border: .2rem solid transparent
 }
 
 /* ===== FOOTER =====*/
