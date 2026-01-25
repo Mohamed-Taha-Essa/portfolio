@@ -417,7 +417,7 @@ img {
   }
 }
 
-/* ===== SKILLS =====*/
+/* ===== SKILLS (Modern 2026 Design) =====*/
 .skills__container {
   display: flex;
   flex-direction: column;
@@ -437,6 +437,7 @@ img {
 
 .skills__header {
   text-align: center;
+  margin-bottom: 2rem;
 }
 
 .skills__subtitle {
@@ -454,59 +455,114 @@ img {
 
 .skills__grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
+@media screen and (max-width: 768px) {
+  .skills__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+/* Modern skill card with glassmorphism */
 .skills__data {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.75rem 1rem;
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(248, 250, 252, 0.85));
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  box-shadow: 0 8px 32px rgba(15, 23, 42, 0.1);
   position: relative;
-  font-weight: var(--font-semi);
-  padding: 0.5rem 1rem;
-  margin-bottom: var(--mb-4);
-  border-radius: 0.5rem;
-  box-shadow: 0px 4px 25px rgba(14, 36, 49, 0.15);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
 }
 
+/* Gradient border effect on hover */
+.skills__data::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1.25rem;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--first-color), rgba(59, 130, 246, 0.5));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.skills__data:hover::before {
+  opacity: 1;
+}
+
+/* Hover effects */
+.skills__data:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.2);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(248, 250, 252, 0.9));
+}
+
+/* Dark theme styles */
+body.dark-theme .skills__data {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.9));
+  border-color: rgba(148, 163, 184, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+body.dark-theme .skills__data:hover {
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 0.95));
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+/* Skill icon styling */
 .skills__icon {
-  font-size: 2rem;
-  margin-right: var(--mb-2);
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.skills__data:hover .skills__icon {
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* Skill name styling */
+.skills__name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--second-color);
+  text-align: center;
+  letter-spacing: 0.3px;
+  transition: color 0.3s ease;
+}
+
+.skills__data:hover .skills__name {
   color: var(--first-color);
 }
 
-.skills__names {
-  margin-left: 10px;
-  display: flex;
-  align-items: center;
+body.dark-theme .skills__name {
+  color: #e5e7eb;
 }
 
-.skills__bar {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  background-color: var(--first-color);
-  height: 0.25rem;
-  border-radius: 0.5rem;
-  z-index: var(--z-back);
+body.dark-theme .skills__data:hover .skills__name {
+  color: var(--first-color);
 }
 
-.skills__html {
-  width: 95%;
-}
+/* Responsive adjustments */
 
-.skills__css {
-  width: 85%;
-}
-
-.skills__js {
-  width: 65%;
-}
-
-.skills__ux {
-  width: 85%;
-}
 
 /* ===== WORK =====*/
 .work__container {
@@ -572,7 +628,7 @@ img {
   gap: 2rem;
 }
 
-.certificates__slider {
+.certificates__splide {
   position: relative;
   padding: 1.5rem 1.5rem 2.5rem;
   border-radius: 1.5rem;
@@ -581,48 +637,34 @@ img {
   -webkit-backdrop-filter: blur(18px);
   box-shadow: 0 18px 45px rgba(15, 23, 42, 0.18);
   border: 1px solid rgba(148, 163, 184, 0.35);
-  overflow: hidden;
+  overflow: visible;
 }
 
-body.dark-theme .certificates__slider {
+body.dark-theme .certificates__splide {
   background: linear-gradient(135deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.9));
   border-color: rgba(148, 163, 184, 0.4);
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.85);
 }
 
-.certificates__viewport {
+/* Splide track and list */
+.splide__track {
   overflow: hidden;
   padding: 1rem 0;
-  position: relative;
 }
 
-.certificates__viewport::-webkit-scrollbar {
-  height: 6px;
-}
-
-.certificates__viewport::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.certificates__viewport::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.8);
-  border-radius: 999px;
-}
-
-body.dark-theme .certificates__viewport::-webkit-scrollbar-thumb {
-  background: rgba(148, 163, 184, 0.9);
-}
-
-.certificates__track {
+.splide__list {
   display: flex;
   align-items: stretch;
-  gap: 1.5rem;
-  width: max-content;
-  will-change: transform;
 }
 
+.splide__slide {
+  display: flex;
+  align-items: stretch;
+}
+
+/* Certificate card styling */
 .certificate-card {
-  flex: 0 0 280px;
+  width: 100%;
   border-radius: 1.25rem;
   background: rgba(255, 255, 255, 0.96);
   border: 1px solid rgba(148, 163, 184, 0.35);
@@ -638,6 +680,8 @@ body.dark-theme .certificates__viewport::-webkit-scrollbar-thumb {
   border-radius: 0.9rem;
   overflow: hidden;
   margin: 0 0 1rem;
+  background: rgba(148, 163, 184, 0.1);
+  min-height: 230px;
 }
 
 .certificate-card__img {
@@ -647,6 +691,17 @@ body.dark-theme .certificates__viewport::-webkit-scrollbar-thumb {
   transform: scale(1.01);
   transition: transform 0.45s ease;
 }
+
+/* Make certificate images appear clickable */
+.certificate-card__figure a {
+  display: block;
+  cursor: pointer;
+}
+
+.certificate-card__figure a:hover .certificate-card__img {
+  opacity: 0.9;
+}
+
 
 .certificate-card__title {
   font-size: 0.95rem;
@@ -693,122 +748,105 @@ body.dark-theme .certificate-card__title {
   color: #e5e7eb;
 }
 
-.certificates__nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+/* Splide arrows customization */
+.splide__arrow {
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 999px;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: rgba(15, 23, 42, 0.06);
-  color: var(--second-color);
-  cursor: pointer;
-  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.25);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+  box-shadow: 0 10px 40px rgba(15, 23, 42, 0.25);
+  transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.25s ease;
 }
 
-.certificates__nav i {
-  font-size: 1.5rem;
+.splide__arrow svg {
+  fill: var(--second-color);
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.certificates__nav--prev {
-  left: 0.25rem;
-}
-
-.certificates__nav--next {
-  right: 0.25rem;
-}
-
-.certificates__nav:hover {
+.splide__arrow:hover:not(:disabled) {
   background: rgba(15, 23, 42, 0.16);
-  transform: translateY(-52%);
   box-shadow: 0 16px 55px rgba(15, 23, 42, 0.4);
 }
 
-.certificates__nav:disabled {
+.splide__arrow:disabled {
   opacity: 0.25;
   cursor: default;
-  box-shadow: none;
 }
 
-body.dark-theme .certificates__nav {
+body.dark-theme .splide__arrow {
   background: rgba(15, 23, 42, 0.6);
-  color: #e5e7eb;
 }
 
-/* Hide nav and pagination for marquee */
-.certificates__nav,
-.certificates__pagination {
-  display: none !important;
+body.dark-theme .splide__arrow svg {
+  fill: #e5e7eb;
 }
 
-@keyframes marquee {
-  0% {
-    transform: translateX(0);
-  }
-
-  100% {
-    transform: translateX(var(--marquee-distance, -50%));
-  }
+/* Splide pagination customization */
+.splide__pagination {
+  bottom: 0.5rem;
+  padding: 0;
 }
 
-/* We'll apply the animation via JS to control speed based on content */
-
-.certificates__pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-.certificates__bullet {
+.splide__pagination__page {
   width: 8px;
   height: 8px;
-  border-radius: 999px;
-  border: none;
   background: rgba(148, 163, 184, 0.6);
-  padding: 0;
-  cursor: pointer;
-  transition: background 0.3s ease, width 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+  border: none;
+  border-radius: 999px;
+  margin: 0 0.25rem;
+  transition: background 0.3s ease, width 0.3s ease, transform 0.3s ease;
 }
 
-.certificates__bullet--active {
+.splide__pagination__page.is-active {
   width: 18px;
   background: var(--first-color);
   transform: translateY(-1px);
 }
 
-body.dark-theme .certificates__bullet {
+body.dark-theme .splide__pagination__page {
   background: rgba(148, 163, 184, 0.55);
 }
 
-body.dark-theme .certificates__bullet--active {
+body.dark-theme .splide__pagination__page.is-active {
   background: var(--first-color);
 }
 
-/* Responsive slides per viewport */
-@media screen and (min-width: 576px) {
-  .certificate-card {
-    flex: 0 0 320px;
+/* Lazy loading placeholder */
+.splide__slide img[data-splide-lazy] {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.splide__slide img.is-loaded {
+  opacity: 1;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 768px) {
+  .certificates__splide {
+    padding: 1rem 1rem 2rem;
+  }
+
+  .splide__arrow {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+
+  .splide__arrow svg {
+    width: 1.25rem;
+    height: 1.25rem;
   }
 }
 
 @media screen and (min-width: 992px) {
-  .certificates__slider {
+  .certificates__splide {
     padding: 2rem 2.25rem 3rem;
   }
-
-  .certificate-card {
-    flex: 0 0 350px;
-  }
 }
+
 
 
 /* ===== CONTACT =====*/
@@ -905,10 +943,7 @@ body.dark-theme .certificates__bullet--active {
     gap: 2.5rem;
   }
 
-  .skills__grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
+
 
   .work__container {
     grid-template-columns: repeat(2, 1fr);

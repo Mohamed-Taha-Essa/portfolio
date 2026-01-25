@@ -98,101 +98,82 @@ if (whatsappFab) {
     });
 }
 
-/*==================== CERTIFICATES CONTINUOUS MARQUEE ====================*/
-(function initCertificatesMarquee() {
-    const slider = document.querySelector('.certificates__slider');
-    if (!slider) return;
+/*==================== CERTIFICATES SPLIDE SLIDER (AutoScroll) ====================*/
+(function initCertificatesSlider() {
+    const sliderElement = document.getElementById('certificate-slider');
+    if (!sliderElement) return;
 
-    const track = slider.querySelector('.certificates__track');
-    if (!track) return;
+    // Initialize Splide with AutoScroll extension for continuous scrolling
+    const splide = new Splide('#certificate-slider', {
+        // Core settings
+        type: 'loop',           // Infinite loop for seamless scrolling
+        perPage: 3,             // Default slides per view
+        perMove: 1,             // Move one slide at a time
+        gap: '1.5rem',          // Space between slides
+        padding: { left: 0, right: 0 },
 
-    const originalSlides = Array.from(track.children);
-    if (originalSlides.length === 0) return;
+        // REMOVED: autoplay and interval (replaced by AutoScroll)
+        // autoplay: true,
+        // interval: 3000,
 
-    const updateAnimation = () => {
-        // Clear existing clones to recalculate
-        const currentSlides = Array.from(track.children);
-        currentSlides.forEach(slide => {
-            if (slide.getAttribute('aria-hidden') === 'true') {
-                track.removeChild(slide);
-            }
-        });
+        // Pause settings (KEPT - work with AutoScroll)
+        pauseOnHover: true,     // Pause when user hovers
+        pauseOnFocus: true,     // Pause when element is focused
 
-        // Calculate the width of the original set
-        // We use the offset of what would be the first clone
-        // To get this, we temporarily add one clone
-        const tempClone = originalSlides[0].cloneNode(true);
-        track.appendChild(tempClone);
-        const originalSetWidth = tempClone.offsetLeft - originalSlides[0].offsetLeft;
-        track.removeChild(tempClone);
+        // Performance optimizations
+        speed: 800,             // Smooth transition speed (800ms)
+        updateOnMove: true,     // Update active state during transition
+        lazyLoad: 'nearby',     // Preload adjacent slides for smooth transitions
+        preloadPages: 1,        // Preload 1 page ahead
 
-        const viewportWidth = slider.offsetWidth;
+        // Accessibility
+        keyboard: true,         // Enable keyboard navigation
+        drag: true,             // Enable mouse/touch drag
 
-        // Clone the slides enough times to fill the viewport plus one extra set
-        // This ensures that when we reset to 0, there's always content visible
-        const clonesNeeded = Math.ceil(viewportWidth / originalSetWidth) + 1;
+        // Arrows and pagination
+        arrows: true,           // Show navigation arrows
+        pagination: true,       // Show pagination dots
 
-        for (let i = 0; i < clonesNeeded; i++) {
-            originalSlides.forEach(slide => {
-                const clone = slide.cloneNode(true);
-                clone.setAttribute('aria-hidden', 'true');
-                track.appendChild(clone);
-            });
-        }
+        // Reduced motion support
+        reducedMotion: {
+            speed: 0,
+            rewindSpeed: 0,
+            autoplay: false,
+        },
 
-        // Set a consistent speed (e.g., 50 pixels per second)
-        const speed = 50;
-        const duration = originalSetWidth / speed;
+        // Responsive breakpoints
+        breakpoints: {
+            992: {
+                perPage: 2,     // 2 slides on tablets
+                gap: '1.25rem',
+            },
+            768: {
+                perPage: 1,     // 1 slide on mobile
+                gap: '1rem',
+                padding: { left: '1rem', right: '1rem' },
+            },
+        },
 
-        track.style.animation = 'none';
-        track.offsetHeight; // Trigger reflow
-
-        track.style.setProperty('--marquee-distance', `-${originalSetWidth}px`);
-        track.style.animation = `marquee ${duration}s linear infinite`;
-    };
-
-    // Wait for images to load to get accurate widths
-    const images = track.querySelectorAll('img');
-    let loadedCount = 0;
-    const onImageLoad = () => {
-        loadedCount++;
-        if (loadedCount === images.length) {
-            updateAnimation();
-        }
-    };
-
-    if (images.length === 0) {
-        updateAnimation();
-    } else {
-        images.forEach(img => {
-            if (img.complete) {
-                onImageLoad();
-            } else {
-                img.addEventListener('load', onImageLoad);
-                img.addEventListener('error', onImageLoad); // Handle broken images too
-            }
-        });
-    }
-
-    // Update on resize
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(updateAnimation, 200);
+        // NEW: AutoScroll configuration for continuous scrolling
+        autoScroll: {
+            speed: 0.7,         // Slow, smooth continuous scroll (pixels per frame)
+            pauseOnHover: true, // Pause scrolling on hover
+            pauseOnFocus: true, // Pause scrolling on focus
+        },
     });
 
-    // Pause on hover/focus
-    slider.addEventListener('mouseenter', () => {
-        track.style.animationPlayState = 'paused';
+    // Mount the slider WITH the AutoScroll extension
+    splide.mount(window.splide.Extensions);
+
+    // Optional: Add custom event listeners for analytics or debugging
+    splide.on('moved', function (newIndex) {
+        // Track slide changes if needed
+        // console.log('Moved to slide:', newIndex);
     });
-    slider.addEventListener('mouseleave', () => {
-        track.style.animationPlayState = 'running';
-    });
-    slider.addEventListener('focusin', () => {
-        track.style.animationPlayState = 'paused';
-    });
-    slider.addEventListener('focusout', () => {
-        track.style.animationPlayState = 'running';
+
+    splide.on('lazyload:loaded', function (img) {
+        // Track lazy loaded images if needed
+        // console.log('Image loaded:', img.src);
     });
 })();
 

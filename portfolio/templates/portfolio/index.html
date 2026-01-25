@@ -11,6 +11,9 @@
     <!-- =====BOX ICONS===== -->
     <link href='https://cdn.jsdelivr.net/npm/boxicons@2.0.5/css/boxicons.min.css' rel='stylesheet'>
 
+    <!-- =====SPLIDE CSS===== -->
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+
     <title>Portfolio website complete</title>
 </head>
 
@@ -90,43 +93,26 @@
                 </svg>
             </div>
         </section>
-        {% if certificates %}
-        <!--===== CERTIFICATES =====-->
-        <section class="certificates section" id="certificates" aria-label="My Certificates">
-            <h2 class="section-title">My Certificates</h2>
 
-            <div class="certificates__container bd-grid">
-                <div class="certificates__slider">
-                    <button class="certificates__nav certificates__nav--prev" type="button"
-                        aria-label="Previous certificates">
-                        <i class='bx bx-chevron-left'></i>
-                    </button>
+        <!--===== WORK =====-->
+        <section class="work section" id="work">
+            <h2 class="section-title">Work</h2>
 
-                    <div class="certificates__viewport">
-                        <ul class="certificates__track">
-                            {% for certificate in certificates %}
-                            <li class="certificate-card" role="group" aria-roledescription="slide"
-                                aria-label="{{ forloop.counter }} of {{ certificates|length }}">
-                                <figure class="certificate-card__figure">
-                                    <img src="{{certificate.image.url}}" alt="{{certificate.title}}" loading="lazy"
-                                        class="certificate-card__img">
-                                </figure>
-                                <h3 class="certificate-card__title">{{certificate.title}}</h3>
-                            </li>
-                            {% endfor %}
-                        </ul>
+            <div class="work__container bd-grid">
+                {% for work in works %}
+                <div class="work__card">
+                    <img src="{{work.image.url}}" alt="{{work.title}}" class="work__card-img">
+                    <div class="work__card-content">
+                        <h3 class="work__card-title">{{work.title}}</h3>
+                        <p class="work__card-description">{{work.bio}}</p>
+                        {% if work.url %}
+                        <a href="{{work.url}}" target="_blank" class="work__card-button button">View Project</a>
+                        {% endif %}
                     </div>
-
-                    <button class="certificates__nav certificates__nav--next" type="button"
-                        aria-label="Next certificates">
-                        <i class='bx bx-chevron-right'></i>
-                    </button>
                 </div>
-
-                <div class="certificates__pagination" aria-hidden="true"></div>
+                {% endfor %}
             </div>
         </section>
-        {% endif %}
 
 
         <!--===== ABOUT =====-->
@@ -157,41 +143,42 @@
                 <div class="skills__grid">
                     {% for skill in skills %}
                     <div class="skills__data">
-                        <div class="skills__names">
-                            <img src="{{ skill.icone.url }}" alt="icon">
-                            <span class="skills__name">{{skill.name}}</span>
-                        </div>
-                        <div class="skills__bar" style="width: {{skill.percentage}}%">
-                        </div>
-                        <div>
-                            <span class="skills__percentage">{{skill.percentage}}%</span>
-                        </div>
+                        <img src="{{ skill.icone.url }}" alt="{{skill.name}} icon" class="skills__icon">
+                        <span class="skills__name">{{skill.name}}</span>
                     </div>
                     {% endfor %}
                 </div>
             </div>
         </section>
 
+        {% if certificates %}
+        <!--===== CERTIFICATES =====-->
+        <section class="certificates section" id="certificates" aria-label="My Certificates">
+            <h2 class="section-title">My Certificates</h2>
 
-        <!--===== WORK =====-->
-        <section class="work section" id="work">
-            <h2 class="section-title">Work</h2>
-
-            <div class="work__container bd-grid">
-                {% for work in works %}
-                <div class="work__card">
-                    <img src="{{work.image.url}}" alt="{{work.title}}" class="work__card-img">
-                    <div class="work__card-content">
-                        <h3 class="work__card-title">{{work.title}}</h3>
-                        <p class="work__card-description">{{work.bio}}</p>
-                        {% if work.url %}
-                        <a href="{{work.url}}" target="_blank" class="work__card-button button">View Project</a>
-                        {% endif %}
+            <div class="certificates__container bd-grid">
+                <div class="splide certificates__splide" id="certificate-slider" aria-label="Certificate Gallery">
+                    <div class="splide__track">
+                        <ul class="splide__list">
+                            {% for certificate in certificates %}
+                            <li class="splide__slide">
+                                <div class="certificate-card">
+                                    <figure class="certificate-card__figure">
+                                        <a href="{{certificate.image.url}}" target="_blank" rel="noopener noreferrer">
+                                            <img data-splide-lazy="{{certificate.image.url}}"
+                                                alt="{{certificate.title}}" class="certificate-card__img">
+                                        </a>
+                                    </figure>
+                                    <h3 class="certificate-card__title">{{certificate.title}}</h3>
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
                     </div>
                 </div>
-                {% endfor %}
             </div>
         </section>
+        {% endif %}
 
 
 
@@ -237,10 +224,21 @@
     <!--===== SWEETALERT2 =====-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <!--===== SPLIDE JS =====-->
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+
+    <!--===== SPLIDE AUTOSCROLL EXTENSION =====-->
+    <script
+        src="https://cdn.jsdelivr.net/npm/@splidejs/splide-extension-auto-scroll@0.5.3/dist/js/splide-extension-auto-scroll.min.js"></script>
+
     <!--===== MAIN JS =====-->
     <script src="{% static 'portfolio/js/main.js' %}"></script>
 
     <!--===== CONTACT AJAX JS =====-->
+
+    <script>
+
+    </script>
     <script>
         document.getElementById('contact-form').addEventListener('submit', function (e) {
             e.preventDefault();
