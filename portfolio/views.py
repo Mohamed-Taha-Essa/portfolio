@@ -6,6 +6,16 @@ from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyCo
                         
 # Create your views here.
 def index(request):
+    # Record visitor
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    
+    from .models import Visitor
+    Visitor.objects.create(ip_address=ip)
+
     home = Home.objects.first()
     about = About.objects.first()
     skill_section = SkillSection.objects.first()

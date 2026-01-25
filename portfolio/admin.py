@@ -1,6 +1,13 @@
 from django.contrib import admin
-from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyContactInfo, Certificate
+from .models import Home, About, SkillSection, Skill, WorkSection, Contact, MyContactInfo, Certificate, Visitor
 from unfold.admin import ModelAdmin, TabularInline
+
+
+@admin.register(Visitor)
+class VisitorAdmin(ModelAdmin):
+    list_display = ('ip_address', 'visit_time')
+    readonly_fields = ('ip_address', 'visit_time')
+    ordering = ('-visit_time',)
 
 
 @admin.register(Home)

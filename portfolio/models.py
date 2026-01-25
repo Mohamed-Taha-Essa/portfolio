@@ -116,6 +116,19 @@ class Certificate(models.Model):
         return self.title
 
 
+class Visitor(models.Model):
+    ip_address = models.GenericIPAddressField()
+    visit_time = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.ip_address} at {self.visit_time}"
+
+    class Meta:
+        verbose_name = "Visitor"
+        verbose_name_plural = "Visitors"
+        ordering = ['-visit_time']
+
+
 
     
 
